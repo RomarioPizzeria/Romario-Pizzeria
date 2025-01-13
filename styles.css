@@ -238,7 +238,7 @@ footer {
 }
 
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 1284px){
     #map{
         width: 100%;
     }
