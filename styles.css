@@ -232,7 +232,7 @@ footer {
 #map {
     width: 60%;
     height: 70vh;
-    background: url('/img/Skärmbild\ 2025-01-13\ 095919.png') center center no-repeat;
+    background: url('img/Skärmbild\ 2025-01-13\ 095919.png') center center no-repeat;
     background-size: cover;
     cursor: pointer;
 }
