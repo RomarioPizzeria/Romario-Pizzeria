@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beställ - Romario Pizzeria</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Romario Pizzeria</h1>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="menu.html">Meny</a></li>
+                    <li><a href="order.html">Beställ</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="order">
+            <h2>Din Beställning</h2>
+            <div id="order-list" class="order-list"></div>
+            <p id="total-price" class="total-price">Summa totalt: 0 kr</p>
+            <button class="submit-order" onclick="submitOrder()">Skicka Beställning</button>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Romario Pizzeria</p>
+    </footer>
+
+    <script>
+        // Funktion för att gruppera beställningar
+        function groupOrders(orders) {
+            let grouped = {};
+            orders.forEach(order => {
+                if (grouped[order.name]) {
+                    grouped[order.name].count += 1;
+                } else {
+                    grouped[order.name] = {
+                        name: order.name,
+                        price: order.price,
+                        count: 1
+                    };
+                }
+            });
+            return Object.values(grouped); // Konvertera objektet tillbaka till en array
+        }
+
+        // Funktion för att ladda och visa beställningar
+        function loadOrder() {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            let groupedOrders = groupOrders(orders);
+            let orderList = document.getElementById('order-list');
+            let totalPrice = 0;
+
+            // Rensa tidigare innehåll
+            orderList.innerHTML = '';
+
+            groupedOrders.forEach((order, index) => {
+                let orderItem = document.createElement('div');
+                orderItem.classList.add('order-item');
+                orderItem.innerHTML = `
+                    <div class="order-details">
+                        <span>${order.name} (${order.count} st) - ${order.price * order.count} kr</span>
+                        <button onclick="removeOrder('${order.name}')">Ta bort</button>
+                    </div>
+                `;
+                orderList.appendChild(orderItem);
+                totalPrice += order.price * order.count;
+            });
+
+            document.getElementById('total-price').textContent = `Summa totalt: ${totalPrice} kr`;
+        }
+
+        // Funktion för att ta bort alla instanser av en specifik beställning
+        function removeOrder(itemName) {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders = orders.filter(order => order.name !== itemName); // Ta bort alla matchande instanser
+            localStorage.setItem('orders', JSON.stringify(orders));
+            loadOrder(); // Ladda om listan
+        }
+
+        // Funktion för att skicka beställningen
+        function submitOrder() {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            if (orders.length === 0) {
+                alert("Din beställning är tom! Lägg till något först.");
+                return;
+            }
+
+            // Simulera att skicka beställningen
+            alert("Din beställning har skickats! Tack för att du beställer hos Romario Pizzeria.");
+
+            // Töm beställningarna efter skickad beställning
+            localStorage.removeItem('orders');
+            loadOrder();
+        }
+
+        // Ladda beställningar när sidan öppnas
+        window.onload = loadOrder;
+    </script>
+</body>
+
+</html>

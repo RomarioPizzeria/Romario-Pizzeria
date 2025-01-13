@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meny - Romario Pizzeria</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Romario Pizzeria</h1>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="menu.html">Meny</a></li>
+                    <li><a href="order.html">Beställ <span id="order-count" class="order-count"></span></a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="menu">
+            <h2>Meny</h2>
+            <div class="menu-container">
+                <div class="pizza-item">
+                    <img src="/img/Margherita-pizza.jpg" alt="Margherita Pizza">
+                    <h3>Margherita</h3>
+                    <p>Tomatsås, Mozzarella</p>
+                    <p><strong>110 kr</strong></p>
+                    <button onclick="addToOrder('Margherita', 110)">Lägg till beställning</button>
+                </div>
+                <div class="pizza-item">
+                    <img src="/img/Vesuvio-pizza.webp" alt="Vesuvio Pizza">
+                    <h3>Vesuvio</h3>
+                    <p>Tomatsås, Mozzarella, Kalkonskinka</p>
+                    <p><strong>110 kr</strong></p>
+                    <button onclick="addToOrder('Vesuvio', 110)">Lägg till beställning</button>
+                </div>
+                <div class="pizza-item">
+                    <img src="/img/Capricciosa-pizza.jpg" alt="Capricciosa Pizza">
+                    <h3>Capricciosa</h3>
+                    <p>Tomatsås, Mozzarella, Kalkonskinka, Champinjoner</p>
+                    <p><strong>110 kr</strong></p>
+                    <button onclick="addToOrder('Capricciosa', 110)">Lägg till beställning</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Romario Pizzeria</p>
+    </footer>
+
+    <script>
+        function addToOrder(itemName, price) {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push({ name: itemName, price: price });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            updateOrderCount();
+        }
+
+        function updateOrderCount() {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            let orderCount = document.getElementById('order-count');
+
+            if (orders.length > 0) {
+                orderCount.textContent = orders.length;
+                orderCount.style.display = 'inline'; // Visa räkningen
+            } else {
+                orderCount.style.display = 'none'; // Dölj räkningen
+            }
+        }
+
+        // Uppdatera räkningen när sidan laddas
+        window.onload = updateOrderCount;
+    </script>
+</body>
+
+</html>
