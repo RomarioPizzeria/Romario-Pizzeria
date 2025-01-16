@@ -234,9 +234,8 @@ footer {
 
 
 #map {
-    width: 60%;
+    width: 80%;
     height: 70vh;
-    background: url('img/mapsgoogle.png') center center no-repeat;
     background-size: cover;
     cursor: pointer;
 }
